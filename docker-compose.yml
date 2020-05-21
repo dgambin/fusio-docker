@@ -2,7 +2,9 @@ version: '2'
 services:
   # Fusio container
   fusio:
-    image: fusio/fusio
+    # build local version
+    # image: fusio/fusio
+    build: .
     environment:
       FUSIO_PROJECT_KEY: "42eec18ffdbffc9fda6110dcc705d6ce"
       FUSIO_HOST: "acme.com"
