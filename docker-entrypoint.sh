@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # wait for mysql server
-while ! mysqladmin ping -h"$FUSIO_DB_HOST" --silent; do
+while ! pg_isready -q -h "$FUSIO_DB_HOST"; do
     sleep 1
 done
 
