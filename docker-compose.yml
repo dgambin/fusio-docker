@@ -51,5 +51,7 @@ services:
       POSTGRES_PASSWORD: "dphYFbKN"
       POSTGRES_DB: "fusio"
       PGDATA: "/var/lib/postgresql/data/pgdata"
+    ports:
+      - "5432:5432"
     volumes:
       - ./db:/var/lib/postgresql/data/pgdata
