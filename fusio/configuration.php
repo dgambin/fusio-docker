@@ -12,10 +12,10 @@ return [
     'fusio_grant_implicit'    => true,
 
     // Expire times of the different tokens which can be issued
-    'fusio_expire_implicit'   => 'PT1H',
-    'fusio_expire_app'        => 'P2D',
-    'fusio_expire_backend'    => 'PT1H',
-    'fusio_expire_consumer'   => 'PT1H',
+    'fusio_expire_implicit'   => getenv('FUSIO_EXPIRE_IMPLICIT'),
+    'fusio_expire_app'        => getenv('FUSIO_EXPIRE_APP'),
+    'fusio_expire_backend'    => getenv('FUSIO_EXPIRE_BACKEND'),
+    'fusio_expire_consumer'   => getenv('FUSIO_EXPIRE_CONSUMER'),
 
     // How long can you use the refresh token after the access token was
     // generated
@@ -62,6 +62,15 @@ return [
     // user at the backend app
     'fusio_marketplace_url'   => 'https://raw.githubusercontent.com/apioo/fusio/master/marketplace.yaml',
 
+    // The public url to the apps folder (i.e. http://acme.com/apps or 
+    // http://apps.acme.com)
+    'fusio_apps_url'          => getenv('FUSIO_APPS_URL'),
+
+    // Location where the apps are persisted from the marketplace. By default
+    // this is the public dir to access the apps directly, but it is also
+    // possible to specify a different folder
+    'fusio_apps_dir'          => __DIR__ . '/apps',
+
     // Location of the automatically generated cron file. Note Fusio writes only
     // to this file if it exists. In order to use the cronjob service you need
     // to create this file with i.e. "touch /etc/cron.d/fusio"
@@ -80,9 +89,12 @@ return [
     // the web server so that the config changes take affect
     'fusio_server_conf'       => '/etc/apache2/sites-available/000-fusio.conf',
 
-    // The url to the psx public folder (i.e. http://127.0.0.1/psx/public or 
-    // http://localhost.com)
-    'psx_url'                 => 'http://' . getenv('FUSIO_HOST'),
+    // The public url to the public folder (i.e. http://acme.com/public or 
+    // http://acme.com)
+    'psx_url'                 => getenv('FUSIO_URL'),
+
+    // To enable clean urls you need to set this to '' this works only in case
+    // mod rewrite is activated
     'psx_dispatch'            => '',
 
     // The default timezone
@@ -99,7 +111,11 @@ return [
         'user'                => getenv('FUSIO_DB_USER'),
         'password'            => getenv('FUSIO_DB_PW'),
         'host'                => getenv('FUSIO_DB_HOST'),
-        'driver'              => 'pdo_mysql',
+        'driver'              => getenv('FUSIO_DB_DRIVER'),
+        'driverOptions'       => [
+            // dont emulate so that we can use prepared statements in limit clause
+            \PDO::ATTR_EMULATE_PREPARES => false
+        ],
     ],
 
     // Folder locations
